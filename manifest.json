@@ -5,7 +5,7 @@
   "content_scripts": [
     {
       "matches": ["*://*.twitter.com/*"],
-      "js": ["index.js"]
+      "js": ["index.js", "common.js"]
     }
   ],
   "browser_action": {
@@ -13,5 +13,6 @@
     "default_popup": "index.html"
   },
   "icons": {},
-  "permissions": ["activeTab", "storage"]
+  "permissions": ["activeTab", "storage"],
+  "web_accessible_resources": ["common.js"]
 }

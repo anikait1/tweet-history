@@ -1,6 +1,6 @@
+const DB_WRITE_INTERVAL = 2000; // 2s
 (async () => {
-  const DB_KEY = "tweets-history";
-  const DB_WRITE_INTERVAL = 2000; // 2s
+  await browser.storage.local.clear()
   const TWEET_URL_IDENTIFIER =
     ".r-bcqeeo.r-qvutc0.r-37j5jr.r-a023e6.r-rjixqe.r-16dba41.r-xoduu5.r-1q142lx.r-1w6e6rj.r-9aw3ui.r-3s2u2q.r-1loqt21";
   const TWEET_HISTORY = await loadHistoryFromStorage();
@@ -18,10 +18,10 @@
    * in case it is available.
    * @returns TODO add type
    */
-  async function loadHistoryFromStorage() {
-    const tweetsDB = await browser.storage.local.get([DB_KEY]);
-    return tweetsDB;
-  }
+  // async function loadHistoryFromStorage() {
+  //   const tweetsDB = await browser.storage.local.get([DB_KEY]);
+  //   return DB_KEY in tweetsDB ? tweetsDB[DB_KEY] : {}
+  // }
 
   /**
    * Writes the `TWEET_HISTORY` object to local storage.
@@ -30,8 +30,7 @@
    */
   async function writeHistoryToStorage() {
     if (Object.keys(TWEET_HISTORY).length !== 0) {
-      console.log('Saved')
-      await browser.storage.local.set(TWEET_HISTORY);
+      await browser.storage.local.set({ [DB_KEY]: TWEET_HISTORY });
     }
 
     setTimeout(writeHistoryToStorage, DB_WRITE_INTERVAL);
@@ -75,7 +74,7 @@
         continue;
       }
 
-      console.log(TWEET_HISTORY)
+      console.log(TWEET_HISTORY);
       TWEET_HISTORY[urlNode.href] = Date.now();
     }
   }
